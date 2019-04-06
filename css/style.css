@@ -14,8 +14,8 @@ button {
 
 body {
   font: 1em/1.5;
-  color: #184f68;
-	background: #accbd9;
+  color: #243B53;
+	background: #F0F4F8;
 }
 
 header {
@@ -24,6 +24,7 @@ header {
 
 h1 {
 	font-size: 2.5em;
+	color: #14919B;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 	margin: 0;
 }
@@ -38,7 +39,9 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #85b5ca;
+	margin-bottom: 7em;
+	background: #fff;
+	box-shadow: 0px 10px 20px hsla(211, 39%, 23%, 0.2);
 }
 
 fieldset,
@@ -59,8 +62,9 @@ button {
 
 legend {
 	font-weight: 500;
+	color: #38BEC9;
 	padding-top: .5em;
-	border-top: 2px solid #679cb3;
+	border-top: 2px solid #F0F4F8;
 	margin-bottom: 1.125em;
 }
 
@@ -71,28 +75,33 @@ legend {
 }
 
 label {
-	color: #000;
+	color: #486581;
 	display: block;
 	margin-bottom: .5em;
 }
 
 input,
 select {
+	color: #243B53;
+	padding: 8px 10px;
 	margin-bottom: 1.125em;	
 }
 
 input {
 	font-size: 1em;
 	font-weight: 500;
+	color: #627d98; 
 	padding: .8em;
-	background: #c1deeb;
-	border: 2px solid #c1deeb;
+	background: #F0F4F8;
+	border: 2px solid #F0F4F8;
 	outline: none;
 }
 
 input:focus {
+	color: #102A43;
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #38BEC9;
+	box-shadow: 0px 3px 5px hsla(211, 39%, 23%, 0.2);
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -102,15 +111,15 @@ input[type="radio"] {
 }
 
 button {
-	color: #fff;
+	color: #FFFBEA;
 	padding: .55em 1.25em;
-	background: #22627e;
+	background: #CB6E17;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 }
 
 button:hover {
-	background: #184c62;
+	background: #B44D12;
 }
 
 /* ================================= 
@@ -139,16 +148,35 @@ button:hover {
   Helper Classes
 ==================================== */
 
-.is-hidden {
-	display: none;
+legend.error-legend {
+	color: #BC0A6F;
 }
 
-.clearfix::after {
-  content: " ";
-  display: table;
-  clear: both;
+.error-input {
+	border-color: #E8368F;
+	background-color: white;
+	box-shadow: 0px 3px 5px hsla(211, 39%, 23%, 0.2);
 }
 
+.message {
+	font-size: 14px;
+	color: #DE911D;
+	text-align: right;
+  	margin-top: 0px;
+  	margin-bottom: 0.5rem;
+}
+.message-error{
+	color: #E8368F;
+}
+
+.selected-checkbox {
+	color: #102A43;
+	font-weight: bold;
+}
+
+.disabled-checkbox {
+	color: #BCCCDC;
+}
 /* ================================= 
   Media Queries
 ==================================== */
@@ -156,6 +184,9 @@ button:hover {
 @media (min-width: 0) and (max-width: 679px) {
 	header {
 		padding: 2em 0;
+	}
+	form {
+		margin-bottom: 0px;
 	}
 	button {
 		width: 100%;

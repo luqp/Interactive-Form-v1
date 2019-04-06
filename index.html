@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Register for Full Stack Conf</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container">
@@ -16,9 +17,9 @@
     </header>
 
     <form action="index.html" method="post">
-              
+              <!-- Basic Info -->
       <fieldset>         
-        <legend>Basic Info</legend>
+        <legend id="leg">Basic Info</legend>
         
         <label for="name">Name:</label>
         <input type="text" id="name" name="user_name">
@@ -34,12 +35,14 @@
           <option value="designer">Designer</option>          
           <option value="student">Student</option>
           <option value="other">Other</option>  
-        </select>           
+        </select>
+        <!-- Other job rol type section-->
+        <input type="text" id="otherTitle" placeholder="Your Job Role...">
       </fieldset>
-      
+              <!--Tshirt Color Info -->
       <fieldset class="shirt">
         <legend>T-Shirt Info</legend>
-        
+        <!--Size-->
         <div>
           <label for="size">Size:</label>
           <select id="size" name="user_size">
@@ -49,7 +52,7 @@
             <option value="extra large">XL</option>
           </select>
         </div>
-
+        <!--Desing-->
         <div>
           <label for="design">Design:</label>
           <select id="design" name="user_design">
@@ -58,7 +61,7 @@
             <option value="heart js">Theme - I &#9829; JS</option>
           </select>
         </div>
-
+        <!--Color-->
         <div id="colors-js-puns" class="">
           <label for="color">Color:</label>
           <select id="color">
@@ -71,7 +74,7 @@
           </select>
         </div>                
       </fieldset>
-
+              <!-- Register for Activities -->
       <fieldset class="activities">
         <legend>Register for Activities</legend>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
@@ -83,6 +86,7 @@
         <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
                   	
       </fieldset>
+              <!-- Payment Info -->
       <fieldset>
         <legend>Payment Info</legend>
 
@@ -93,12 +97,12 @@
           <option value="paypal">PayPal</option>
           <option value="bitcoin">Bitcoin</option>
         </select>
-
+        <!--Credist Card-->
         <div id="credit-card" class="credit-card">
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user_cc-num" type="text">
+        	  <input id="ccNum" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
@@ -135,11 +139,11 @@
             <option value="2020">2020</option>        		          
           </select> 	                  	         
         </div>
-
+        <!--PayPal-->
         <div>
         	<p>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
         </div> 
-
+        <!--Bitcoin-->
         <div>
         	<p>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
         </div>                  
@@ -150,6 +154,12 @@
       
     </form>
 
-	</div>
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
