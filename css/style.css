@@ -113,7 +113,7 @@ input[type="radio"] {
 button {
 	color: #FFFBEA;
 	padding: .55em 1.25em;
-	background: #CB6E17;
+	background: #3EBD93;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 }
@@ -176,6 +176,11 @@ legend.error-legend {
 
 .disabled-checkbox {
 	color: #BCCCDC;
+}
+
+.credit-card > label {
+	width: 100%;
+	display: flex;
 }
 /* ================================= 
   Media Queries

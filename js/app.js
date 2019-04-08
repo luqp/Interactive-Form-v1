@@ -1,164 +1,150 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const errorElement = '<p>';
-    const three = 3;
-    const five = 5;
-    const thirteen = 13;
-    const sixtheen = 16;
 
-    const validation = {
-        name: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isOnlyText, "Not write numbers or simbols"]],
-        mail: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isEmail, 'Error of email, write like name@example.com']],
-        otherTitle: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isOnlyText, "Not write numbers or simbols"]],
-        ccNum: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isOnlyNumber, 'Write only numbers'], [(value) => { return minimum(value, thirteen, sixtheen); }, `Minimun ${thirteen} to ${sixtheen} caracters`]],
-        zip: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isOnlyNumber, 'Write only numbers'], [(value) => { return minimum(value, five); }, `Minimun ${five} caracters`]],
-        cvv: [[isNotEmpty, "This camp cann't be empty or being with empty space"], [isOnlyNumber, 'Write only numbers'], [(value) => { return minimum(value, three); }, `Minimun ${three} caracters`]],
-        css: ['message', 'error-legend', 'error-input', 'message-error']
+    const validationConfig = {
+        "basicInfo": {
+            "name": [[notEmpty, "This field can not be blank."], [onlyText, "Do not write numbers or symbols."]],
+            "mail": [[notEmpty, "This field can not be blank."], [email, "Enter a valid email, write like name@example.com"]],
+            "other-title": [[notEmpty, "This field can not be blank."], [onlyText, "Do not write numbers or symbols."]]
+        },
+        "tshirtInfo": {
+            "design": [[buildNotDefaultValue("Select Theme"), "Select the shirt design."]]
+        },
+        "activitiesInfo": {
+            "activitiesInfo": [[() => { return $('#js-sum').text() !== '0'}, ""]]
+        },
+        "paymentInfo": {
+            "payment": [[buildNotDefaultValue("select_method"), "Select a payment method."]],
+            "cc-num": [[notEmpty, "This field can not be blank."], [onlyNumber, 'Only accept numbers.'], [buildRange(13, 16), `Minimun ${13} to ${16} caracters`]],
+            "zip": [[notEmpty, "This field can not be blank."], [onlyNumber, 'Only accept numbers.'], [buildFixedSize(5), `Insert ${5} caracters`]],
+            "cvv": [[notEmpty, "This field can not be blank."], [onlyNumber, 'Only accept numbers.'], [buildFixedSize(3), `Insert ${3} caracters`]],
+        }
     }
-    loadForm(errorElement, validation);
-    $('button:submit').on('click', (e) => { verifyInputs(e, validation) });
 
+    loadForm();
+    appendRealTimeValidation(validationConfig, customErrorFieldHandler); //Es para registrar validaciones en tiempo real
+
+    $('button:submit').on('click', (e) => { 
+        if(!performValidation(validationConfig, customErrorFieldHandler, customErrorGroupHandler)) { // est para registrar validaciones cuando submiteas
+            e.preventDefault(); 
+        } 
+    });
 });
 
-function verifyInputs(event, validation) {
-    let isEmpty = false;
-    //Checked if color desing is seleted
-    if ($('#design option')[0].selected) {
-        isEmpty = true;
-        $('.shirt legend').addClass(validation['css'][1]);
-    }
-    // Checked if some checkbox is checked
-    if ($('label input:checked').length === 0) {
-        isEmpty = true;
-        $('.activities legend').addClass(validation['css'][1]);
-    }
-    // Checked if a Type of Pay was selected
-    if ($('#payment option')[0].selected) {
-        isEmpty = true;
-        $('fieldset:last legend').addClass(validation['css'][1]);
-    }
-    // Checked if the imput value are correct
-    $('input[type="text"], input[type="email"]').each(function() { 
-        if (this.style.display === 'none' || this.parentNode.parentNode.style.display === 'none') {
-            return;
-        }
-        const $error = $(this).next();
-        const id = $(this).attr('id');
-        const invalid = verifyValueInput(this, validation[id], $error);
-        if (invalid) {
-            const parent = this.parentNode;
-            isEmpty = true;
-            if (parent.tagName === 'DIV') $(parent.parentNode.parentNode.firstElementChild).addClass(validation['css'][1]);
-            else $(parent.firstElementChild).addClass(validation['css'][1]);
-            $(this).addClass(validation['css'][2]);
-            $(this).next().addClass(validation['css'][3]);
-            console.log('t');
-        }    
-    });
-
-    if (isEmpty) {
-        event.preventDefault();
-    }
-}
-
-function loadForm(errorElement, validation) {
+function loadForm() {
     $('#name').focus();
-    $('#otherTitle').hide();
+    $('#other-title').hide();
     $('#colors-js-puns').hide();
     $('fieldset:last > div').hide();
-    // Add input if "other" Elemente is select
-    $('#title').on('change', (e) => { showOrHideTip(e.target.value === 'other', $('#otherTitle')); });
-    // Add message Error to inputs
-    $('fieldset:first input').each(function () { addErrorHandle(this); });
-    // Add message Error to inputs
-    $('fieldset:last input').each(function () { addErrorHandle(this); });
-    // Show options by the type payment selected
+    $('#activitiesInfo').append('<span id="js-sum">0</span>');
+
+    $('#title').on('change', (e) => {
+        const otherSelected = e.target.value === 'other';
+        showOrHideElement(otherSelected, $('#other-title'));
+        customErrorFieldHandler(otherSelected, 'other-title');
+    });
     $('#payment').on('change', (e) => {
-
-        $('fieldset:last legend').removeClass(validation['css'][1]);
-
         const payment = e.target.value;
-        
-        showOrHideTip(payment === 'credit card', $('fieldset:last > div')[0]);
-        showOrHideTip(payment === 'paypal', $('fieldset:last > div')[1]);
-        showOrHideTip(payment === 'bitcoin', $('fieldset:last > div')[2]);
+        showOrHideElement(payment === 'credit card', $('fieldset:last > div')[0]);
+        showOrHideElement(payment === 'paypal', $('fieldset:last > div')[1]);
+        showOrHideElement(payment === 'bitcoin', $('fieldset:last > div')[2]);
 
+        
     });
-    // Change color when design is changed
-    $('#design').on('change', (e) => { 
-        agrupingBySelection(e.target);
-        $('.shirt legend').removeClass(validation['css'][1]);
-    });
-    // Add event to each checkbox
+    $('#design').on('change', (e) => { groupingBySelection(e.target); });
     $('.activities input:checkbox').on('change', (e) => { 
         checkboxHandle(e.target.parentNode, $('.activities label'));
-        $('.activities legend').removeClass(validation['css'][1]);
     });
-
-    function addErrorHandle(input) {
-        const id = $(input).attr('id');
-        const $error = createElementNextTo(input, errorElement, validation['css'][0]);
-        $(input).on('input', (e) => {
-            const element = e.target;
-            const parent = element.parentNode;
-            verifyValueInput(element, validation[id], $error);
-            
-            if (parent.tagName === 'DIV') $(parent.parentNode.parentNode.firstElementChild).removeClass(validation['css'][1]);
-            else $(parent.firstElementChild).removeClass(validation['css'][1]);
-            
-            $(element).removeClass(validation['css'][2]);
-            $(element).next().removeClass(validation['css'][3]);
-        });
-    }
-
-};
-
-// Add an error element next to an DOM element
-function createElementNextTo(previousSibling, elementSimbol, nameClass) {
-    const $element = $(elementSimbol);
-    $element.addClass(nameClass).hide();
-    $(previousSibling).after($element);
-    return $element;
 }
 
-function agrupingBySelection(selector) {
+function customErrorFieldHandler(show, fieldId, errorMessage) { 
+    let $element = $(`#${fieldId}-error`);
 
+    if (!show) {
+        $element.remove();
+        return;
+    }
+
+    if ($element.length) {
+        $element.text(errorMessage);
+    } else {
+        const $element = $(`<p id="${fieldId}-error" class="message" >`);
+        $element.text(errorMessage);
+        $(`#${fieldId}`).after($element);
+    }
+}
+
+function customErrorGroupHandler(isValid, groupId) {
+    const $legend = $(`#${groupId}`).children(':first');
+    if(isValid) {
+        $legend.toggleClass();
+    } else {
+        $legend.addClass('error-legend');
+    }
+}
+
+function showOrHideElement(show, element) {
+    if (show) {
+        $(element).show();
+    } else {
+        $(element).hide();
+    }
+}
+
+function groupingBySelection(selector) {
     const colors = $('#color option');
     const limit = colors.length / 2;
     const shirt = selector.value;
     const isShirtOne = $(selector.children)[1].value;
-
-    showOrHideTip(shirt !== $(selector.children)[0].value, $('#colors-js-puns'));
-
-    if (shirt === isShirtOne) colors[0].selected = true;
-    else colors[limit].selected = true;
+    showOrHideElement(shirt !== $(selector.children)[0].value, $('#colors-js-puns'));
+    if (shirt === isShirtOne) {
+        colors[0].selected = true;
+    }
+    else {
+        colors[limit].selected = true; 
+    }
 
     for (let i = 0; i < colors.length; i++) {
-
         const show = isPartOf(shirt === isShirtOne, i, limit)
-        showOrHideTip(show, colors[i]);
+        showOrHideElement(show, colors[i]);
     };
 
-}
-
-function checkboxHandle(select, options) {
-    $(select).toggleClass('selected-checkbox');
-    for (let i = 0; i < options.length; i++) {
-        const option = options[i]
-        if (select !== option) {
-            continue;
+    function isPartOf(belong, position, limit) {
+        if (belong) {
+            return position < limit;
         }
-        if (i > 0 && i < 3) {
-            toggleAble(options[i + 2]);
-        }
-        else if (i > 0 && i < 5) {
-            toggleAble(options[i - 2]);
+        else {
+            return position >= limit;
         }
     }
 }
 
-function toggleAble(sibling) {
-    const able = sibling.firstElementChild['disabled'];
-    if (able) {
+function checkboxHandle(select, $options) {
+    $(select).toggleClass('selected-checkbox');
+    $options.each(function() {
+        const values = $(this).text().split(/[—,] /);
+        if (select === this) {
+            let sum = parseInt($('#js-sum').text());
+            const price = parseInt(values[values.length - 1].replace('$', ''));
+            if(select.firstElementChild.checked) {
+                sum += price;
+            }
+            else {
+                sum -= price;
+            }
+            $('#js-sum').text(sum);
+        }
+        else {
+            selectValues = $(select).text().split(/[—,] /);
+            if (selectValues[1] === values[1]) {
+                calculateAvailability(this);
+            }
+        }
+    });
+}
+
+function calculateAvailability(sibling) {
+    const isDisabled = sibling.firstElementChild['disabled'];
+    if (isDisabled) {
         sibling.firstElementChild['disabled'] = false;
         $(sibling).removeClass('disabled-checkbox');
     }
@@ -167,7 +153,3 @@ function toggleAble(sibling) {
         $(sibling).addClass('disabled-checkbox');
     }
 }
-
-
-
-

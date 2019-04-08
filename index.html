@@ -18,7 +18,7 @@
 
     <form action="index.html" method="post">
               <!-- Basic Info -->
-      <fieldset>         
+      <fieldset id="basicInfo">         
         <legend id="leg">Basic Info</legend>
         
         <label for="name">Name:</label>
@@ -37,10 +37,10 @@
           <option value="other">Other</option>  
         </select>
         <!-- Other job rol type section-->
-        <input type="text" id="otherTitle" placeholder="Your Job Role...">
+        <input type="text" id="other-title" placeholder="Your Job Role...">
       </fieldset>
               <!--Tshirt Color Info -->
-      <fieldset class="shirt">
+      <fieldset id="tshirtInfo" class="shirt">
         <legend>T-Shirt Info</legend>
         <!--Size-->
         <div>
@@ -75,7 +75,7 @@
         </div>                
       </fieldset>
               <!-- Register for Activities -->
-      <fieldset class="activities">
+      <fieldset id="activitiesInfo" class="activities">
         <legend>Register for Activities</legend>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
         <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
@@ -83,11 +83,10 @@
         <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
         <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
         <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
-                  	
+        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>                 	
       </fieldset>
               <!-- Payment Info -->
-      <fieldset>
+      <fieldset id="paymentInfo">
         <legend>Payment Info</legend>
 
         <label for="payment">I'm going to pay with:</label>
@@ -102,7 +101,7 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="ccNum" name="user_cc-num" type="text">
+        	  <input id="cc-num" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
@@ -114,7 +113,7 @@
             <label for="cvv">CVV:</label>
             <input id="cvv" name="user_cvv" type="text"> 
           </div>
-
+          
           <label for="exp-month">Expiration Date:</label>
           <select id="exp-month" name="user_exp-month">
             <option value="1">1 - January</option>
