@@ -61,7 +61,7 @@ function performValidation(config, errorFieldHandler, errorGroupHandler) {
     for (let property in config) {
         if (Array.isArray(config[property])) {
             if ($(`#${property}`).is(':visible')) {         
-                isValid &=validateField(property, config[property], errorFieldHandler);          
+                isValid &=validateField(property, config[property], errorFieldHandler, 'error-input', 'message-error');          
             }
         }
         else if (typeof config[property] === "object") {
@@ -74,11 +74,11 @@ function performValidation(config, errorFieldHandler, errorGroupHandler) {
     return isValid;
 }
 
-function validateField(property, validators, errorFieldHandler) {
+function validateField(property, validators, errorFieldHandler, classInput, classMessage) {
     const value = $(`#${property}`).val();
     for (let i = 0; i < validators.length; i++) {
         if (!validators[i][0](value)) {
-            errorFieldHandler(true, property, validators[i][1]);
+            errorFieldHandler(true, property, validators[i][1], classInput, classMessage);
             return false;
         }
     }

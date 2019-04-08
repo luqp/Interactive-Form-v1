@@ -34,8 +34,10 @@ function loadForm() {
     $('#name').focus();
     $('#other-title').hide();
     $('#colors-js-puns').hide();
-    $('fieldset:last > div').hide();
-    $('#activitiesInfo').append('<span id="js-sum">0</span>');
+    $('#paymentInfo > div').hide();
+    $('#payment option[value="credit card"]').attr('selected', true);
+    $('#credit-card').show();
+    $('#activitiesInfo').append('<h3>Total:</h3><div class="total"><span class="unid">$</span><span id="js-sum">0</span></div>');
 
     $('#title').on('change', (e) => {
         const otherSelected = e.target.value === 'other';
@@ -52,24 +54,28 @@ function loadForm() {
     });
     $('#design').on('change', (e) => { groupingBySelection(e.target); });
     $('.activities input:checkbox').on('change', (e) => { 
-        checkboxHandle(e.target.parentNode, $('.activities label'));
+        checkboxHandle(e.target.parentNode, $('#activitiesInfo label'));
     });
 }
 
-function customErrorFieldHandler(show, fieldId, errorMessage) { 
-    let $element = $(`#${fieldId}-error`);
+function customErrorFieldHandler(show, fieldId, errorMessage, classInput = '', classMessage = '') { 
+    const $element = $(`#${fieldId}-error`);
+    const $prevElement = $(`#${fieldId}`);
 
     if (!show) {
         $element.remove();
+        $prevElement.removeClass($prevElement.attr('class'));
+        $prevElement.parents('fieldset').children(':first').removeClass('error-legend');
         return;
     }
 
     if ($element.length) {
-        $element.text(errorMessage);
+        $element.text(errorMessage).addClass(classMessage);
+        $prevElement.addClass(classInput);
     } else {
         const $element = $(`<p id="${fieldId}-error" class="message" >`);
-        $element.text(errorMessage);
-        $(`#${fieldId}`).after($element);
+        $element.text(errorMessage).addClass(classMessage);
+        $prevElement.after($element).addClass(classInput);
     }
 }
 
@@ -91,35 +97,29 @@ function showOrHideElement(show, element) {
 }
 
 function groupingBySelection(selector) {
-    const colors = $('#color option');
-    const limit = colors.length / 2;
-    const shirt = selector.value;
-    const isShirtOne = $(selector.children)[1].value;
-    showOrHideElement(shirt !== $(selector.children)[0].value, $('#colors-js-puns'));
-    if (shirt === isShirtOne) {
-        colors[0].selected = true;
-    }
-    else {
-        colors[limit].selected = true; 
-    }
+    const shirt = $(`option[value="${selector.value}"]`).text().replace(/\w+\s-\s(.+)/, '$1');
+    let selected = true;
+    showOrHideElement(!$(selector.children)[0].value.includes(shirt), $('#colors-js-puns'));
 
-    for (let i = 0; i < colors.length; i++) {
-        const show = isPartOf(shirt === isShirtOne, i, limit)
-        showOrHideElement(show, colors[i]);
-    };
-
-    function isPartOf(belong, position, limit) {
-        if (belong) {
-            return position < limit;
+    $('#color option').each(function(i, color) {
+        if (color.text.includes(shirt)) {
+            $(color).show();
+            if ((i === 0 && selected) || (i > 0 && selected)) {
+                selected = false;
+                color.selected = true;
+            }
         }
         else {
-            return position >= limit;
+            $(color).hide();
         }
-    }
+    });
+    
 }
 
 function checkboxHandle(select, $options) {
     $(select).toggleClass('selected-checkbox');
+    $options.parents('fieldset').children(':first').removeClass('error-legend');
+
     $options.each(function() {
         const values = $(this).text().split(/[—,] /);
         if (select === this) {
