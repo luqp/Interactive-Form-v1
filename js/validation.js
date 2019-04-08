@@ -1,3 +1,6 @@
+/*******************************************
+|           Validation Framework           |
+*******************************************/
 function onlyText(value) {
     return /^[a-z\s]+$/i.test(value);
 }

@@ -119,13 +119,14 @@ input[type="radio"] {
 button {
 	color: #FFFBEA;
 	padding: .55em 1.25em;
-	background: #3EBD93;
+	background: #B44D12;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 }
 
 button:hover {
-	background: #B44D12;
+	background: #DE911D;
+	box-shadow: 0px 3px 5px hsla(211, 39%, 23%, 0.2);
 }
 
 /* ================================= 
@@ -150,7 +151,7 @@ button:hover {
 	margin-top: 1.25em;
 }
 
-.total {
+#total {
 	display: flex;
 	align-items: flex-start;
 	color: #0E7C86;
@@ -203,6 +204,11 @@ button:hover {
 .credit-card > label {
 	width: 100%;
 	display: flex;
+}
+
+#payment-error,
+#total-error {
+	text-align: left;
 }
 /* ================================= 
   Media Queries

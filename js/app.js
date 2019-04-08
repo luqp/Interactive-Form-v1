@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "design": [[buildNotDefaultValue("Select Theme"), "Select the shirt design."]]
         },
         "activitiesInfo": {
-            "activitiesInfo": [[() => { return $('#js-sum').text() !== '0'}, ""]]
+            "total": [[() => { return $('#js-sum').text() !== '0'}, "Select at least one activity"]]
         },
         "paymentInfo": {
             "payment": [[buildNotDefaultValue("select_method"), "Select a payment method."]],
@@ -37,7 +37,7 @@ function loadForm() {
     $('#paymentInfo > div').hide();
     $('#payment option[value="credit card"]').attr('selected', true);
     $('#credit-card').show();
-    $('#activitiesInfo').append('<h3>Total:</h3><div class="total"><span class="unid">$</span><span id="js-sum">0</span></div>');
+    $('#activitiesInfo').append('<h3>Total:</h3><div id="total"><span class="unid">$</span><span id="js-sum">0</span></div>');
 
     $('#title').on('change', (e) => {
         const otherSelected = e.target.value === 'other';
@@ -118,6 +118,7 @@ function groupingBySelection(selector) {
 
 function checkboxHandle(select, $options) {
     $(select).toggleClass('selected-checkbox');
+    $('#total-error').remove();
     $options.parents('fieldset').children(':first').removeClass('error-legend');
 
     $options.each(function() {
