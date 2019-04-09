@@ -1,26 +1,27 @@
 # Interactive Form
 
 
-Interactive Form is a project that allows you validate any info that is insert to the required fields
+_Interactive Form is a project that allows you validate any info that is insert to the required fields_
 
 
 ![Form](https://windyludev.github.io/Interactive-Form-v1/imgs/Form.jpg)
 
+
 ## Select Optios
-You can select an option and another section related to the first selected field will be enabled.
-For example: show only the products that are for the "heart js" design.
+
+_You can select an option and another section related to the first selected field will be enabled.
+For example: show only the products that are for the "heart js" design._
 
 
 ![Select design](https://windyludev.github.io/Interactive-Form-v1/imgs/Select%20design.jpg)
 
+
 ## Choose Activities
 
-
-It also disables activities or options that can not be selected at the same time. And show the total cost of your selections
+_It also disables activities or options that can not be selected at the same time. And show the total cost of your selections_
 
 
 ![Activities](https://windyludev.github.io/Interactive-Form-v1/imgs/Activities.jpg)
-
 
 
 ## Payment Methods
@@ -31,8 +32,8 @@ It also disables activities or options that can not be selected at the same time
 
 ## Validation Handler
 
-But the first characteristic is the inputs validation.
-The program uses a Framework that performs the tasks of:
+_But the first characteristic is the inputs validation.
+The program uses a Framework that performs the tasks of:_
 
 
 + **Checks the value input**
@@ -42,11 +43,10 @@ The program uses a Framework that performs the tasks of:
 + **Verify all the fields before sending the form and mark the fields that must be filled out.**
 
 
-
 ![Error-Submit](https://windyludev.github.io/Interactive-Form-v1/imgs/Erro-Submit.jpg)
 
 
-And handle message with in real time
+_And handle message with in real time_
 
 
 ![message-realtime](https://windyludev.github.io/Interactive-Form-v1/imgs/Message-realtime.jpg)
