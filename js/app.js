@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     });
 });
-
+// Hides options elements and charge events
 function loadForm() {
     $('#name').focus();
     $('#other-title').hide();
@@ -57,7 +57,7 @@ function loadForm() {
         checkboxHandle(e.target.parentNode, $('#activitiesInfo label'));
     });
 }
-
+// Adds an error message to each input to validate
 function customErrorFieldHandler(show, fieldId, errorMessage, classInput = '', classMessage = '') { 
     const $element = $(`#${fieldId}-error`);
     const $prevElement = $(`#${fieldId}`);
@@ -78,7 +78,7 @@ function customErrorFieldHandler(show, fieldId, errorMessage, classInput = '', c
         $prevElement.after($element).addClass(classInput);
     }
 }
-
+// Change the legend style 
 function customErrorGroupHandler(isValid, groupId) {
     const $legend = $(`#${groupId}`).children(':first');
     if(isValid) {
@@ -95,7 +95,7 @@ function showOrHideElement(show, element) {
         $(element).hide();
     }
 }
-
+// Separates the elements by design
 function groupingBySelection(selector) {
     const shirt = $(`option[value="${selector.value}"]`).text().replace(/\w+\s-\s(.+)/, '$1');
     let selected = true;
@@ -115,7 +115,7 @@ function groupingBySelection(selector) {
     });
     
 }
-
+// Applies the style to checkbox selected
 function checkboxHandle(select, $options) {
     $(select).toggleClass('selected-checkbox');
     $('#total-error').remove();
@@ -142,7 +142,7 @@ function checkboxHandle(select, $options) {
         }
     });
 }
-
+// Enable and disable the checkbox
 function calculateAvailability(sibling) {
     const isDisabled = sibling.firstElementChild['disabled'];
     if (isDisabled) {
