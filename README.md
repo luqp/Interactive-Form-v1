@@ -9,6 +9,8 @@ Interactive Form is a project that allows you validate any info that is insert t
 ## Select Optios
 You can select an option and another section related to the first selected field will be enabled.
 For example: show only the products that are for the "heart js" design.
+
+
 ![Select design](https://windyludev.github.io/Interactive-Form-v1/imgs/Select%20design.jpg)
 
 ## Choose Activities
