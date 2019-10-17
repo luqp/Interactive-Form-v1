@@ -21,9 +21,6 @@ For example: show only the products that are for the "heart js" design._
 _It also disables activities or options that can not be selected at the same time. And show the total cost of your selections._
 
 
-![Activities](https://luqp.github.io/Interactive-Form-v1/imgs/Activities.jpg)
-
-
 ## Payment Methods
 
 
